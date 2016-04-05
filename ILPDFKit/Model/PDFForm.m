@@ -201,7 +201,7 @@
         _modified = YES;
     }
     if (_value != val) {
-        _value = nil;;
+        _value = nil;
         _value = val;
     }
 }
@@ -298,6 +298,31 @@
                         && (_flags & PDFFormFlagButtonPushButton) == 0;
         BOOL radio = (_flags & PDFFormFlagButtonRadio) > 0;
         [PDFFormButtonField drawWithRect:rect context:ctx back:NO selected:selected radio:radio];
+    } else if (self.formType == PDFFormTypeSignature) {
+        if (self.value) {
+            NSData *data = [[NSData alloc] initWithBase64EncodedString:self.value options:NSDataBase64DecodingIgnoreUnknownCharacters];
+            self.image = [[UIImage alloc] initWithData:data];
+        }
+        
+        UIGraphicsPushContext(ctx);
+        
+        CGRect scaledImageRect = CGRectZero;
+        
+        CGFloat aspectWidth = rect.size.width / self.image.size.width;
+        CGFloat aspectHeight = rect.size.height / self.image.size.height;
+        CGFloat aspectRatio = MIN(aspectWidth, aspectHeight);
+        
+        scaledImageRect.size.width = self.image.size.width * aspectRatio;
+        scaledImageRect.size.height = self.image.size.height * aspectRatio;
+        scaledImageRect.origin.x = (rect.size.width - scaledImageRect.size.width) / 2.0f;
+        scaledImageRect.origin.y = (rect.size.height - scaledImageRect.size.height) / 2.0f;
+        
+        [[UIColor colorWithWhite:29/255.f alpha:1.0] setFill];
+        CGRect imageRect = CGRectMake(0, 0, rect.size.width, rect.size.height);
+        UIRectFill(imageRect);
+        
+        [self.image drawInRect:scaledImageRect];
+        UIGraphicsPopContext();
     }
 }
 

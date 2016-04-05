@@ -80,6 +80,10 @@ typedef NS_ENUM(NSUInteger, PDFFormType) {
  */
 @property (nonatomic, strong, nullable) NSString *value;
 
+/** Optional image (only used for signatures right now).
+ */
+@property (nonatomic, strong, nullable) UIImage *image;
+
 /** The page number on which the form appears. The first page has value 1.
  */
 @property (nonatomic, readonly) NSUInteger page;
