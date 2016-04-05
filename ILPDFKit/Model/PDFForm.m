@@ -317,10 +317,6 @@
         scaledImageRect.origin.x = (rect.size.width - scaledImageRect.size.width) / 2.0f;
         scaledImageRect.origin.y = (rect.size.height - scaledImageRect.size.height) / 2.0f;
         
-        [[UIColor colorWithWhite:29/255.f alpha:1.0] setFill];
-        CGRect imageRect = CGRectMake(0, 0, rect.size.width, rect.size.height);
-        UIRectFill(imageRect);
-        
         [self.image drawInRect:scaledImageRect];
         UIGraphicsPopContext();
     }
