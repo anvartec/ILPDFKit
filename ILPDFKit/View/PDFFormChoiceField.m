@@ -51,7 +51,7 @@
 //        self.clipsToBounds = YES;
 
         CGRect selectionFrame = CGRectMake(10, 0, frame.size.width-10, frame.size.height);
-        _baseFontHeight = [PDFWidgetAnnotationView fontSizeForRect:selectionFrame value:nil multiline:NO choice:YES];
+        _baseFontHeight = [PDFWidgetAnnotationView fontSizeForRect:selectionFrame value:nil multiline:NO choice:YES daFont: _form.daFont];
         _selection = [[UILabel alloc] initWithFrame:selectionFrame];
         _selection.opaque = NO;
         _selection.adjustsFontSizeToFitWidth = YES;
@@ -182,7 +182,7 @@
         NSString *text = form.value;
 
         CGRect selectionFrame = CGRectMake(10, 0, frame.size.width-10, frame.size.height);
-        CGFloat baseFontHeight = [PDFWidgetAnnotationView fontSizeForRect:selectionFrame value:nil multiline:NO choice:YES];
+        CGFloat baseFontHeight = [PDFWidgetAnnotationView fontSizeForRect:selectionFrame value:nil multiline:NO choice:YES daFont:form.daFont];
 
         UIFont *font; // [UIFont systemFontOfSize:[PDFWidgetAnnotationView fontSizeForRect:frame value:form.value multiline:NO choice:YES]];
         if(form.defaultAppearance) {

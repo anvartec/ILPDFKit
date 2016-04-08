@@ -98,7 +98,7 @@
         
         _textFieldOrTextView.opaque = NO;
         _textFieldOrTextView.backgroundColor = [UIColor clearColor];
-        _baseFontSize = [PDFWidgetAnnotationView fontSizeForRect:frame value:nil multiline:multiline choice:NO];
+        _baseFontSize = [PDFWidgetAnnotationView fontSizeForRect:frame value:nil multiline:multiline choice:NO daFont: font];
         _currentFontSize = _baseFontSize;
         
         [self addSubview:_textFieldOrTextView];

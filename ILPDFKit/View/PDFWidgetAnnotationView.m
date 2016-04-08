@@ -56,15 +56,24 @@
     self.frame = CGRectMake(_baseFrame.origin.x*zoom,_baseFrame.origin.y*zoom,_baseFrame.size.width*zoom,_baseFrame.size.height*zoom);
 }
 
-+ (CGFloat)fontSizeForRect:(CGRect)rect value:(nullable NSString *)value multiline:(BOOL)multiline choice:(BOOL)choice {
-    if (multiline) return PDFFormDefaultFontSize;
++ (CGFloat)fontSizeForRect:(CGRect)rect value:(nullable NSString *)value multiline:(BOOL)multiline choice:(BOOL)choice daFont:(nullable UIFont *) daFont {
+    CGFloat defaultFontSize;
+    if (daFont) {
+        defaultFontSize = daFont.pointSize;
+    } else {
+        defaultFontSize = PDFFormDefaultFontSize;
+    }
+    
+    if (multiline) return defaultFontSize;
     CGFloat baseSize;
     if (choice) baseSize = roundf(MIN(MAX(floorf(rect.size.height*PDFChoiceFieldBaseFontSizeToFrameHeightScaleFactor),PDFFormMinFontSize),PDFFormMaxFontSize));
-    else baseSize = roundf(MAX(MIN(PDFFormMaxFontSize,MIN(rect.size.height, PDFFormMaxFontSize)*PDFTextFieldFontScaleFactor),PDFFormMinFontSize));
+    else baseSize = roundf(MAX(MIN(PDFFormMaxFontSize,MIN(MIN(defaultFontSize, rect.size.height), PDFFormMaxFontSize)),PDFFormMinFontSize));
     if (value) {
-        while (baseSize >= PDFFormMinFontSize && [value sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:baseSize]}].width > rect.size.width-PDFFormMinFontSize) {
+        while (baseSize >= PDFFormMinFontSize && [value sizeWithAttributes:@{NSFontAttributeName:[daFont fontWithSize:baseSize]}].width > rect.size.width-PDFFormMinFontSize) {
             baseSize -= 1.0;
         }
+        
+        
         return baseSize;
     } else return baseSize;
 }

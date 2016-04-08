@@ -94,7 +94,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param multiline YES if multiple lines of text are permitted.
  @param choice YES if the field is a choice field.
  */
-+ (CGFloat)fontSizeForRect:(CGRect)rect value:(NSString * _Nullable)value multiline:(BOOL)multiline choice:(BOOL)choice;
++ (CGFloat)fontSizeForRect:(CGRect)rect value:(NSString * _Nullable)value multiline:(BOOL)multiline choice:(BOOL)choice daFont:(nullable UIFont *) daFont;
 
 /**---------------------------------------------------------------------------------------
  * @name Updating Data
