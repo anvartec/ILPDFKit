@@ -289,7 +289,7 @@
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
         paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
         paragraphStyle.alignment = self.textAlignment;
-        [text drawInRect:CGRectMake(0, 0, rect.size.width, rect.size.height*2.0) withAttributes:@{NSFontAttributeName:font,NSParagraphStyleAttributeName: paragraphStyle}];
+        [text drawInRect:CGRectMake(0, -(font.ascender - font.capHeight) + ((rect.size.height - font.pointSize) / 2), rect.size.width, rect.size.height) withAttributes:@{NSFontAttributeName:font,NSParagraphStyleAttributeName: paragraphStyle}];
         UIGraphicsPopContext();
     } else if(self.formType == PDFFormTypeChoice) {
         [PDFFormChoiceField drawWithForm:self rect:rect context:ctx];
