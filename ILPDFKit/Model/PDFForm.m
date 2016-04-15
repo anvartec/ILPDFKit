@@ -284,12 +284,18 @@
 - (void)vectorRenderInPDFContext:(CGContextRef)ctx forRect:(CGRect)rect {
     if (self.formType == PDFFormTypeText) {
         NSString *text = self.value;
-        UIFont *font = [_daFont fontWithSize:[PDFWidgetAnnotationView fontSizeForRect:rect value:self.value multiline:((_flags & PDFFormFlagTextFieldMultiline) > 0 && self.formType == PDFFormTypeText) choice:self.formType == PDFFormTypeChoice daFont: _daFont]];
+        BOOL isMultiline = ((_flags & PDFFormFlagTextFieldMultiline) > 0 && self.formType == PDFFormTypeText);
+        UIFont *font = [_daFont fontWithSize:[PDFWidgetAnnotationView fontSizeForRect:rect value:self.value multiline: isMultiline choice:self.formType == PDFFormTypeChoice daFont: _daFont]];
         UIGraphicsPushContext(ctx);
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
         paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
         paragraphStyle.alignment = self.textAlignment;
-        [text drawInRect:CGRectMake(0, -(font.ascender - font.capHeight) + ((rect.size.height - font.pointSize) / 2), rect.size.width, rect.size.height) withAttributes:@{NSFontAttributeName:font,NSParagraphStyleAttributeName: paragraphStyle}];
+        if (isMultiline) {
+            [text drawInRect:CGRectMake(0, 0, rect.size.width, rect.size.height) withAttributes:@{NSFontAttributeName:font,NSParagraphStyleAttributeName: paragraphStyle}];
+        } else {
+            [text drawInRect:CGRectMake(0, (rect.size.height - font.lineHeight) / 2, rect.size.width, rect.size.height) withAttributes:@{NSFontAttributeName:font,NSParagraphStyleAttributeName: paragraphStyle}];
+        }
+        
         UIGraphicsPopContext();
     } else if(self.formType == PDFFormTypeChoice) {
         [PDFFormChoiceField drawWithForm:self rect:rect context:ctx];
